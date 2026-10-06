@@ -1,0 +1,4 @@
+export const REPORTS_CONSTANTS = {
+  MAX_IDS_PER_REQUEST: 1000,
+  MAX_DATE_WINDOW_DAYS: 7,
+} as const;

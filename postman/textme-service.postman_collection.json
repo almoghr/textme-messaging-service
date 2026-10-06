@@ -1,0 +1,707 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d",
+    "name": "TextMe Enterprise Service API Collection",
+    "description": "Comprehensive Postman Collection covering all endpoints and operations of the TextMe Enterprise Service.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3001",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Check Health Status",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Service status is ok\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.status).to.eql(\"ok\");",
+                  "    pm.expect(jsonData.service).to.eql(\"textme-service\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tokens",
+      "item": [
+        {
+          "name": "Create API Token",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"test_user\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tokens/create",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tokens", "create"]
+            }
+          }
+        },
+        {
+          "name": "Get Current API Token",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"test_user\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tokens/current",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tokens", "current"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "SMS",
+      "item": [
+        {
+          "name": "Send Single SMS",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source\": \"DemoAPI\",\n  \"destinations\": {\n    \"phone\": \"0501234567\"\n  },\n  \"message\": \"Hello from TextMe Service\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/sms/send",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "sms", "send"]
+            }
+          }
+        },
+        {
+          "name": "Send Bulk SMS",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"messages\": [\n    {\n      \"source\": \"DemoAPI\",\n      \"destinations\": { \"phone\": \"0501234567\" },\n      \"message\": \"Bulk Message 1\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/sms/bulk",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "sms", "bulk"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "OTP",
+      "item": [
+        {
+          "name": "Send OTP Code",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"0501234567\",\n  \"source\": \"DemoAuth\",\n  \"max_tries\": 3,\n  \"valid_time\": 5\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/otp/send",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "otp", "send"]
+            }
+          }
+        },
+        {
+          "name": "Validate OTP Code",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"0501234567\",\n  \"code\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/otp/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "otp", "validate"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Balance",
+      "item": [
+        {
+          "name": "Query Remaining Balance",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"sms\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/balance/query",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "balance", "query"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "Get DLR by IDs",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"external_ids\": [\"id-123\"],\n  \"from\": \"01/01/26 00:00\",\n  \"to\": \"02/01/26 00:00\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/reports/dlr",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reports", "dlr"]
+            }
+          }
+        },
+        {
+          "name": "Get DLR by Date",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from\": \"01/01/26 00:00\",\n  \"to\": \"02/01/26 00:00\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/reports/dlr-by-date",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reports", "dlr-by-date"]
+            }
+          }
+        },
+        {
+          "name": "Get Incoming Messages",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from\": \"01/01/26 00:00\",\n  \"to\": \"02/01/26 00:00\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/reports/incoming",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "reports", "incoming"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Blacklist",
+      "item": [
+        {
+          "name": "Get Blacklist",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"from\": \"01/01/26 00:00\",\n  \"to\": \"02/01/26 00:00\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/blacklist/query",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "blacklist", "query"]
+            }
+          }
+        },
+        {
+          "name": "Add to Blacklist",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phones\": [\"0501234567\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/blacklist/add",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "blacklist", "add"]
+            }
+          }
+        },
+        {
+          "name": "Remove from Blacklist",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phones\": [\"0501234567\"],\n  \"reason\": \"User requested unblock\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/blacklist/remove",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "blacklist", "remove"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contact Lists",
+      "item": [
+        {
+          "name": "Create Contact List",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"lists\": [\n    {\n      \"name\": \"Customers\",\n      \"contacts\": [\n        {\n          \"phone\": \"0501234567\",\n          \"df1\": \"John Doe\"\n        }\n      ]\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/contact-lists/create",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "contact-lists", "create"]
+            }
+          }
+        },
+        {
+          "name": "Remove Contact List",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cl_ids\": [\"cl_123\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/contact-lists/remove",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "contact-lists", "remove"]
+            }
+          }
+        },
+        {
+          "name": "Add Numbers to List",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"lists\": [\n    {\n      \"cl_id\": \"cl_123\",\n      \"contacts\": [{ \"phone\": \"0501234567\" }]\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/contact-lists/add-numbers",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "contact-lists", "add-numbers"]
+            }
+          }
+        },
+        {
+          "name": "Remove Numbers from List",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"lists\": [\n    {\n      \"cl_id\": \"cl_123\",\n      \"phones\": [\"0501234567\"]\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/contact-lists/remove-numbers",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "contact-lists", "remove-numbers"]
+            }
+          }
+        },
+        {
+          "name": "Get All Contact Lists",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/contact-lists/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "contact-lists", "all"]
+            }
+          }
+        },
+        {
+          "name": "Get Contact List by ID",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cl_id\": \"cl_123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/contact-lists/by-id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "contact-lists", "by-id"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Campaigns",
+      "item": [
+        {
+          "name": "Cancel Campaign by ID",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"campaign_id\": \"cmp_123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/campaigns/cancel-by-id",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "campaigns", "cancel-by-id"]
+            }
+          }
+        },
+        {
+          "name": "Cancel Campaign by Name",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"campaign_name\": \"SummerSale\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/campaigns/cancel-by-name",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "campaigns", "cancel-by-name"]
+            }
+          }
+        },
+        {
+          "name": "Get Birthday Campaigns",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/campaigns/birthday",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "campaigns", "birthday"]
+            }
+          }
+        },
+        {
+          "name": "Edit Birthday Campaign",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"campaign_id\": \"cmp_123\",\n  \"message\": \"Happy Birthday from Polytech!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/campaigns/birthday/edit",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "campaigns", "birthday", "edit"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Verified Senders",
+      "item": [
+        {
+          "name": "Verify Phone Sender",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"0501234567\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/verified-senders/verify",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "verified-senders", "verify"]
+            }
+          }
+        },
+        {
+          "name": "Get Verified Senders",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"is_subs\": \"0\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/verified-senders/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "verified-senders", "all"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Subscribers",
+      "item": [
+        {
+          "name": "Add Sub-Account",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userDetails\": {\n    \"name\": \"Sub User\",\n    \"username\": \"subuser1\",\n    \"password\": \"SecurePass123!\",\n    \"source\": \"SubSender\",\n    \"amount\": \"5000\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/subscribers/add",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "subscribers", "add"]
+            }
+          }
+        },
+        {
+          "name": "Update Sub-Account Wallet",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userDetails\": {\n    \"username\": \"subuser1\",\n    \"amount\": \"1000\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/subscribers/update-wallet",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "subscribers", "update-wallet"]
+            }
+          }
+        },
+        {
+          "name": "Get Sub-Account Balances",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/subscribers/balances",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "subscribers", "balances"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        {
+          "name": "Register Push URL with TextMe",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"dlr\",\n  \"url\": \"https://example.com/api/webhooks/delivery-report\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/webhooks/push-url/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "webhooks", "push-url", "register"]
+            }
+          }
+        },
+        {
+          "name": "Receive Delivery Report Webhook",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Callback received acknowledged\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.received).to.eql(true);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"external_id\": \"ext-123\",\n  \"status\": \"0\",\n  \"phone\": \"0501234567\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/webhooks/delivery-report",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "webhooks", "delivery-report"]
+            }
+          }
+        },
+        {
+          "name": "Receive Incoming Message Webhook",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Callback received acknowledged\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.received).to.eql(true);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"phone\": \"0501234567\",\n  \"dest\": \"0509999999\",\n  \"message\": \"Customer reply text\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/webhooks/incoming-message",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "webhooks", "incoming-message"]
+            }
+          }
+        },
+        {
+          "name": "Receive Blocklist Addition Webhook",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Callback received acknowledged\", function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.received).to.eql(true);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dest\": \"0501234567\",\n  \"message\": \"הסר\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/webhooks/blocklist-addition",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "webhooks", "blocklist-addition"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "RPC Direct Gateway",
+      "item": [
+        {
+          "name": "Execute Generic RPC Call",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"body\": {\n    \"balance\": {\n      \"type\": \"sms\"\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/textme/call",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "textme", "call"]
+            }
+          }
+        },
+        {
+          "name": "Validate Generic RPC on /api/test",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"body\": {\n    \"sms\": {\n      \"source\": \"TestAPI\",\n      \"destinations\": { \"phone\": \"0501234567\" },\n      \"message\": \"Testing without sending\"\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/textme/test",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "textme", "test"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

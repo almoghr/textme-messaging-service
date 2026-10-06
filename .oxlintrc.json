@@ -1,0 +1,30 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oxc-project/oxc/main/npm/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "import", "promise", "unicorn", "jest"],
+  "categories": {
+    "correctness": "error",
+    "perf": "error",
+    "suspicious": "warn"
+  },
+  "rules": {
+    "no-unused-vars": "error",
+    "no-await-in-loop": "off",
+    "import/no-named-as-default-member": "off",
+    "typescript/no-explicit-any": "error",
+    "typescript/explicit-module-boundary-types": "off",
+    "typescript/no-inferrable-types": "error",
+    "typescript/no-non-null-assertion": "warn",
+    "typescript/no-extraneous-class": ["warn", { "allowWithDecorator": true }],
+    "unicorn/prefer-top-level-await": "off",
+    "promise/always-return": "warn",
+    "promise/no-return-wrap": "error",
+    "unicorn/prefer-node-protocol": "error",
+    "unicorn/no-array-sort": "off",
+    "no-underscore-dangle": "off"
+  },
+  "ignorePatterns": [
+    "dist/**",
+    "node_modules/**",
+    "coverage/**"
+  ]
+}
